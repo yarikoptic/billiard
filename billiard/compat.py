@@ -115,13 +115,13 @@ def get_fdmax(default=None):
             return default
     # Some system might be "mis"configured and allow for ulimit -n
     # of e.g. 1073741816 which would be infeasible to sweep through.
-    if fdmax >= 1e5:
+    if fdmax >= FD_MAX_LIMIT_THRESHOLD:
         # limiting value is ad-hoc and already more than sensible
         if default:
             fdmax_limited = default
             msg = "the default"
         else:
-            fdmax_limited = 10000
+            fdmax_limited = FD_MAX_DEFAULT_LIMIT
             msg = "a new smaller"
         warnings.warn(
            f"System set max number of open files ({fdmax}) is way too high. "
